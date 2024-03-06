@@ -25,3 +25,6 @@ def setup_and_teardown():
 @pytest.mark.atp
 def test_search_for_send_message_chat(setup_and_teardown):
     assert driver.find_element(By.XPATH, "//*[contains(text(),' Send message ')]").is_displayed()
+
+def test_newmethod():
+    print("dddd")
