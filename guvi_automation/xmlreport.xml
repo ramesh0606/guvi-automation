@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+    <testsuite name="pytest" errors="0" failures="0" skipped="0" tests="1" time="8.423"
+               timestamp="2024-03-06T15:18:14.006325" hostname="DESKTOP-GNNSVHK">
+        <testcase classname="test_guvi_login" name="test_zenclass_login" time="8.195"/>
+    </testsuite>
+</testsuites>

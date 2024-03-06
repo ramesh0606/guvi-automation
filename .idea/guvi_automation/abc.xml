@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+    <testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="7.461"
+               timestamp="2024-03-06T15:14:00.487523" hostname="DESKTOP-GNNSVHK">
+        <testcase classname="test_guvi_login" name="test_zenclass_login" time="7.139">
+            <failure
+                    message="selenium.common.exceptions.InvalidSelectorException: Message: invalid selector: An invalid or illegal selector was specified&#10;  (Session info: chrome=122.0.6261.111); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalid-selector-exception&#10;Stacktrace:&#10;&#09;GetHandleVerifier [0x00007FF71AEDAD22+56930]&#10;&#09;(No symbol) [0x00007FF71AE4F622]&#10;&#09;(No symbol) [0x00007FF71AD042E5]&#10;&#09;(No symbol) [0x00007FF71AD09261]&#10;&#09;(No symbol) [0x00007FF71AD0B6EB]&#10;&#09;(No symbol) [0x00007FF71AD0B7B0]&#10;&#09;(No symbol) [0x00007FF71AD4955C]&#10;&#09;(No symbol) [0x00007FF71AD49A2C]&#10;&#09;(No symbol) [0x00007FF71AD8A967]&#10;&#09;(No symbol) [0x00007FF71AD6BCDF]&#10;&#09;(No symbol) [0x00007FF71AD881E2]&#10;&#09;(No symbol) [0x00007FF71AD6BA43]&#10;&#09;(No symbol) [0x00007FF71AD3D438]&#10;&#09;(No symbol) [0x00007FF71AD3E4D1]&#10;&#09;GetHandleVerifier [0x00007FF71B256AAD+3709933]&#10;&#09;GetHandleVerifier [0x00007FF71B2AFFED+4075821]&#10;&#09;GetHandleVerifier [0x00007FF71B2A817F+4043455]&#10;&#09;GetHandleVerifier [0x00007FF71AF79756+706710]&#10;&#09;(No symbol) [0x00007FF71AE5B8FF]&#10;&#09;(No symbol) [0x00007FF71AE56AE4]&#10;&#09;(No symbol) [0x00007FF71AE56C3C]&#10;&#09;(No symbol) [0x00007FF71AE468F4]&#10;&#09;BaseThreadInitThunk [0x00007FFCB2437344+20]&#10;&#09;RtlUserThreadStart [0x00007FFCB33C26B1+33]">
+                setup_and_teardown = None
+
+                @pytest.mark.atp
+                def test_zenclass_login(setup_and_teardown):
+                # write a code to verify the login
+                &gt; driver.find_element(By.NAME, "//input[@name=\"email\"]").send_keys("rameshsanapathi@gmail.com")
+
+                test_guvi_login.py:24:
+                _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+                _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+                ..\Lib\site-packages\selenium\webdriver\remote\webdriver.py:741: in find_element
+                return self.execute(Command.FIND_ELEMENT, {"using": by, "value": value})["value"]
+                ..\Lib\site-packages\selenium\webdriver\remote\webdriver.py:347: in execute
+                self.error_handler.check_response(response)
+                _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+                _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+                self = &lt;selenium.webdriver.remote.errorhandler.ErrorHandler object at 0x00000251D8FB0DA0&gt;
+                response = {'status': 400, 'value': '{"value":{"error":"invalid selector","message":"invalid selector:
+                An invalid or illegal sele...07FF71AE468F4]\\n\\tBaseThreadInitThunk
+                [0x00007FFCB2437344+20]\\n\\tRtlUserThreadStart [0x00007FFCB33C26B1+33]\\n"}}'}
+
+                def check_response(self, response: Dict[str, Any]) -&gt; None:
+                """Checks that a JSON response from the WebDriver does not have an
+                error.
+
+                :Args:
+                - response - The JSON response from the WebDriver server as a dictionary
+                object.
+
+                :Raises: If the response contains an error message.
+                """
+                status = response.get("status", None)
+                if not status or status == ErrorCode.SUCCESS:
+                return
+                value = None
+                message = response.get("message", "")
+                screen: str = response.get("screen", "")
+                stacktrace = None
+                if isinstance(status, int):
+                value_json = response.get("value", None)
+                if value_json and isinstance(value_json, str):
+                import json
+
+                try:
+                value = json.loads(value_json)
+                if len(value) == 1:
+                value = value["value"]
+                status = value.get("error", None)
+                if not status:
+                status = value.get("status", ErrorCode.UNKNOWN_ERROR)
+                message = value.get("value") or value.get("message")
+                if not isinstance(message, str):
+                value = message
+                message = message.get("message")
+                else:
+                message = value.get("message", None)
+                except ValueError:
+                pass
+
+                exception_class: Type[WebDriverException]
+                e = ErrorCode()
+                error_codes = [item for item in dir(e) if not item.startswith("__")]
+                for error_code in error_codes:
+                error_info = getattr(ErrorCode, error_code)
+                if isinstance(error_info, list) and status in error_info:
+                exception_class = getattr(ExceptionMapping, error_code, WebDriverException)
+                break
+                else:
+                exception_class = WebDriverException
+
+                if not value:
+                value = response["value"]
+                if isinstance(value, str):
+                raise exception_class(value)
+                if message == "" and "message" in value:
+                message = value["message"]
+
+                screen = None # type: ignore[assignment]
+                if "screen" in value:
+                screen = value["screen"]
+
+                stacktrace = None
+                st_value = value.get("stackTrace") or value.get("stacktrace")
+                if st_value:
+                if isinstance(st_value, str):
+                stacktrace = st_value.split("\n")
+                else:
+                stacktrace = []
+                try:
+                for frame in st_value:
+                line = frame.get("lineNumber", "")
+                file = frame.get("fileName", "&lt;anonymous&gt;")
+                if line:
+                file = f"{file}:{line}"
+                meth = frame.get("methodName", "&lt;anonymous&gt;")
+                if "className" in frame:
+                meth = f"{frame['className']}.{meth}"
+                msg = " at %s (%s)"
+                msg = msg % (meth, file)
+                stacktrace.append(msg)
+                except TypeError:
+                pass
+                if exception_class == UnexpectedAlertPresentException:
+                alert_text = None
+                if "data" in value:
+                alert_text = value["data"].get("text")
+                elif "alert" in value:
+                alert_text = value["alert"].get("text")
+                raise exception_class(message, screen, stacktrace, alert_text) # type: ignore[call-arg] # mypy is not
+                smart enough here
+                &gt; raise exception_class(message, screen, stacktrace)
+                E selenium.common.exceptions.InvalidSelectorException: Message: invalid selector: An invalid or illegal
+                selector was specified
+                E (Session info: chrome=122.0.6261.111); For documentation on this error, please visit:
+                https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalid-selector-exception
+                E Stacktrace:
+                E GetHandleVerifier [0x00007FF71AEDAD22+56930]
+                E (No symbol) [0x00007FF71AE4F622]
+                E (No symbol) [0x00007FF71AD042E5]
+                E (No symbol) [0x00007FF71AD09261]
+                E (No symbol) [0x00007FF71AD0B6EB]
+                E (No symbol) [0x00007FF71AD0B7B0]
+                E (No symbol) [0x00007FF71AD4955C]
+                E (No symbol) [0x00007FF71AD49A2C]
+                E (No symbol) [0x00007FF71AD8A967]
+                E (No symbol) [0x00007FF71AD6BCDF]
+                E (No symbol) [0x00007FF71AD881E2]
+                E (No symbol) [0x00007FF71AD6BA43]
+                E (No symbol) [0x00007FF71AD3D438]
+                E (No symbol) [0x00007FF71AD3E4D1]
+                E GetHandleVerifier [0x00007FF71B256AAD+3709933]
+                E GetHandleVerifier [0x00007FF71B2AFFED+4075821]
+                E GetHandleVerifier [0x00007FF71B2A817F+4043455]
+                E GetHandleVerifier [0x00007FF71AF79756+706710]
+                E (No symbol) [0x00007FF71AE5B8FF]
+                E (No symbol) [0x00007FF71AE56AE4]
+                E (No symbol) [0x00007FF71AE56C3C]
+                E (No symbol) [0x00007FF71AE468F4]
+                E BaseThreadInitThunk [0x00007FFCB2437344+20]
+                E RtlUserThreadStart [0x00007FFCB33C26B1+33]
+
+                ..\Lib\site-packages\selenium\webdriver\remote\errorhandler.py:229: InvalidSelectorException
+            </failure>
+        </testcase>
+    </testsuite>
+</testsuites>
